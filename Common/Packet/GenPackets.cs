@@ -11,9 +11,19 @@ public enum PacketID
 	
 }
 
+internal interface IPacket
+{
+	ushort Protocol { get; }
+	void Read(ArraySegment<byte> segment);
+	ArraySegment<byte> Write();
+}
 
 
-class PlayerInfoReq
+
+
+
+
+class PlayerInfoReq : IPacket
 {
     public byte testByte;
 	public long playerId;
@@ -77,11 +87,7 @@ class PlayerInfoReq
 			success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), (ushort)this.attributes.Count);
 			count += sizeof(ushort);
 			foreach(Attribute attribute in this.attributes)
-			{
 			    success &= attribute.Write(s, ref count);
-			}
-			
-			
 	        return success;
 	    }
 	
@@ -89,7 +95,7 @@ class PlayerInfoReq
 	}
 	public List<Skill> skills = new List<Skill>();
 
-
+    public ushort Protocol {  get { return (ushort)PacketID.PlayerInfoReq; } }
 
     public void Read(ArraySegment<byte> segment)
     {
@@ -142,11 +148,7 @@ class PlayerInfoReq
 		success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), (ushort)this.skills.Count);
 		count += sizeof(ushort);
 		foreach(Skill skill in this.skills)
-		{
 		    success &= skill.Write(s, ref count);
-		}
-		
-		
         success &= BitConverter.TryWriteBytes(s, count);
         if (success == false)
             return null;
@@ -156,11 +158,11 @@ class PlayerInfoReq
 
 
 
-class Test
+class Test : IPacket
 {
     public int testInt;
 
-
+    public ushort Protocol {  get { return (ushort)PacketID.Test; } }
 
     public void Read(ArraySegment<byte> segment)
     {

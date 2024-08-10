@@ -1,4 +1,5 @@
-﻿using ServerCore;
+﻿using Server.Packet;
+using ServerCore;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -34,33 +35,8 @@ namespace Server
 
         public override void OnRecvPacket(ArraySegment<byte> buffer)
         {
-            ushort count = 0;
-            
-            ushort size = BitConverter.ToUInt16(buffer.Array, buffer.Offset);
-            count += 2;
-            ushort id = BitConverter.ToUInt16(buffer.Array, buffer.Offset + count);
-            count += 2;
+            PacketManager.Instance.OnRecvPacket(this, buffer);
 
-            switch((PacketID)id)
-            {
-                case PacketID.PlayerInfoReq:
-                    {
-                        PlayerInfoReq p = new PlayerInfoReq();
-                        p.Read(buffer);
-                        Console.WriteLine($"PlayerInfoReq: {p.playerId} {p.name}");
-
-                        foreach(PlayerInfoReq.Skill skill in p.skills)
-                        {
-                            Console.WriteLine($"Skill({skill.id})({skill.level})({skill.duration})");
-                        }
-
-                    }
-                    break;
-            }
-
-
-
-            Console.WriteLine($"RecvPacketId: {id}, Size: {size}");
         }
 
         public override void OnDisconnected(EndPoint endPoint)

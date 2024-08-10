@@ -21,6 +21,16 @@ public enum PacketID
     {0}
 }}
 
+internal interface IPacket
+{{
+	ushort Protocol {{ get; }}
+	void Read(ArraySegment<byte> segment);
+	ArraySegment<byte> Write();
+}}
+
+
+
+
 {1}
 ";
 
@@ -39,11 +49,11 @@ public enum PacketID
 
 @"
 
-class {0}
+class {0} : IPacket
 {{
     {1}
 
-
+    public ushort Protocol {{  get {{ return (ushort)PacketID.{0}; }} }}
 
     public void Read(ArraySegment<byte> segment)
     {{
@@ -177,12 +187,6 @@ count += {0}Len;";
 @"success &= BitConverter.TryWriteBytes(s.Slice(count, s.Length - count), (ushort)this.{1}s.Count);
 count += sizeof(ushort);
 foreach({0} {1} in this.{1}s)
-{{
-    success &= {1}.Write(s, ref count);
-}}
-
-";
-
+    success &= {1}.Write(s, ref count);";
     }
-
 }
