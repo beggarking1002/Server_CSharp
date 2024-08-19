@@ -32,7 +32,8 @@ namespace Server
             Console.WriteLine("Listening...");
             while (true)
             {
-                ;
+                Room.Push(() => Room.Flush());
+                Thread.Sleep(250);
             }
         }
 
