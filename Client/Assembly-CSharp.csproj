@@ -46,15 +46,20 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Network\RecvBuffer.cs" />
+     <Compile Include="Assets\Scripts\PacketQueue.cs" />
      <Compile Include="Assets\Scripts\NetworkManager.cs" />
      <Compile Include="Assets\Scripts\Network\Connector.cs" />
+     <Compile Include="Assets\Scripts\PlayerManager.cs" />
      <Compile Include="Assets\Scripts\Network\Session.cs" />
      <Compile Include="Assets\Scripts\Packet\ClientPacketManager.cs" />
+     <Compile Include="Assets\Scripts\MyPlayer.cs" />
      <Compile Include="Assets\Scripts\Network\ServerSession.cs" />
+     <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\Network\SendBuffer.cs" />
      <Compile Include="Assets\Scripts\Packet\GenPackets.cs" />
      <Compile Include="Assets\Scripts\Packet\PacketHandler.cs" />
      <Folder Include="Assets" />
+     <Folder Include="Assets\Resources" />
      <Folder Include="Assets\Scripts\Packet" />
      <Folder Include="Assets\Scripts" />
      <Folder Include="Assets\Scripts\Network" />
